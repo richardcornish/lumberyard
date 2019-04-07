@@ -7,4 +7,12 @@
 
 <p><strong>{{ request.site.name }}</strong> is where you write loglines with instant feedback.</p>
 
+{% if logline_list %}
+<ul>
+    {% for l in logline_list %}
+    <li><a href="{{ l.get_absolute_url }}">{{ l.title }}</a></li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 {% endblock %}

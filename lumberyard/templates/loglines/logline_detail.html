@@ -11,7 +11,7 @@
 
 <h1>{{ object.title }}</h1>
 
-<p><a href="{{ object.user.get_absolute_url }}">{{ object.user.username }}</a></p>
+<p><a href="{{ object.user.profile.get_absolute_url }}">{{ object.user.username }}</a></p>
 
 <p><a href="{{ object.get_absolute_url }}">{{ object.updated }}</a></p>
 

@@ -1,0 +1,1 @@
+web: gunicorn lumberyard.wsgi --pythonpath lumberyard --log-file -

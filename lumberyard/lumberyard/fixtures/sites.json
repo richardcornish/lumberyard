@@ -1,0 +1,18 @@
+[
+    {
+        "pk": 1, 
+        "model": "sites.site", 
+        "fields": {
+            "domain": "127.0.0.1:8000",
+            "name": "The Lumber Yard"
+        }
+    },
+    {
+        "pk": 2, 
+        "model": "sites.site", 
+        "fields": {
+            "domain": "lumberyard.herokuapp.com",
+            "name": "The Lumber Yard"
+        }
+    }
+]

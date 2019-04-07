@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'loglines:logline_list' %}">Loglines</a></li>
+    {% if object %}
+    <li class="breadcrumb-item"><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></li>
+    {% endif %}
+    <li class="breadcrumb-item active">{% if object %}Update{% else %}New logline{% endif %}</li>
+</ol>
+
+<h1>{% if object %}{{ object.title }}{% else %}New logline{% endif %}</h1>
+
+<form method="post" action="{% if object %}{% url 'loglines:logline_update' object.pk %}{% else %}{% url 'loglines:logline_create' %}{% endif %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if object %}Update{% else %}Create{% endif %} logline</button>
+</form>
+
+{% endblock %}

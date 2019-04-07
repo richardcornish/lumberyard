@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'loglines:logline_list' %}">Loglines</a></li>
+    <li class="breadcrumb-item active">{{ object.title }}</li>
+</ol>
+
+<h1>{{ object.title }}</h1>
+
+<p>{{ object.user.username }}</p>
+
+<p>{{ object.updated }}</p>
+
+<p>{{ object.body }}</p>
+
+<p><a href="{% url 'loglines:logline_update' object.id %}">Update</a></p>
+
+{% if versions %}
+<h2>Versions</h2>
+
+<ol reversed>
+    {% for v in versions %}
+    <li><a href="{% url 'loglines:version_detail' object.id v.id %}">{{ v.field_dict.body }}</a></li>
+    {% endfor %}
+</ol>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">Loglines</li>
+</ol>
+
+<h1>Loglines</h1>
+
+<p><a href="{% url 'loglines:logline_create' %}">New logline</a></p>
+
+<ul>
+    {% for obj in object_list %}
+    <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

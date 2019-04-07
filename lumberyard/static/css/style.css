@@ -1,0 +1,11 @@
+body {
+    font-family: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.text-danger {
+    color: #ff3b30;
+}
+
+.text-success {
+    color: #4cd964;
+}

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html lang="en-us" dir="ltr">
+    <head>
+        <title>{{ request.site.name }}</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="{{ request.site.name }} is where you write a logline with instant feedback.">
+    </head>
+    <body>
+        <header>
+            <div><a href="{% url 'home' %}">{{ request.site.name }}</a></div>
+        </header>
+        <nav>
+            <ul>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                <li><a href="{% url 'loglines:logline_list' %}">Loglines</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'accounts:profile' user.username %}">Profile</a></li>
+                    <li><a href="{% url 'accounts:account' %}">Account</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Sign out</a></li>
+                {% else %}
+                    <li><a href="{% url 'accounts:register' %}">Sign up</a></li>
+                    <li><a href="{% url 'accounts:login' %}">Sign in</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% block content %}
+        {% endblock %}
+        <footer>
+            <small>&copy; {% now 'Y' %} {{ request.site.name }}.</small>
+        </footer>
+    </body>
+</html>

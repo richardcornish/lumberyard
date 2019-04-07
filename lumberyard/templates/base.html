@@ -16,20 +16,23 @@
         </header>
         <nav>
             <ul>
-                <li><a href="{% url 'home' %}">Home</a></li>
                 <li><a href="{% url 'loglines:logline_list' %}">Loglines</a></li>
+                <li><a href="{% url 'profiles:profile_list' %}">Writers</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'accounts:profile' user.username %}">Profile</a></li>
+                    <li><a href="{% url 'profiles:profile_detail' user.username %}">Profile</a></li>
                     <li><a href="{% url 'accounts:account' %}">Account</a></li>
-                    <li><a href="{% url 'accounts:logout' %}">Sign out</a></li>
+                    <li><a href="{% url 'accounts:logout' %}">Log out</a></li>
                 {% else %}
-                    <li><a href="{% url 'accounts:register' %}">Sign up</a></li>
-                    <li><a href="{% url 'accounts:login' %}">Sign in</a></li>
+                    <li><a href="{% url 'accounts:register' %}">Register</a></li>
+                    <li><a href="{% url 'accounts:login' %}">Log in</a></li>
                 {% endif %}
             </ul>
         </nav>
-        {% block content %}
-        {% endblock %}
+        <main>
+            {% include 'includes/messages.html' %}
+            {% block content %}
+            {% endblock %}
+        </main>
         <footer>
             <small>&copy; {% now 'Y' %} {{ request.site.name }}.</small>
         </footer>

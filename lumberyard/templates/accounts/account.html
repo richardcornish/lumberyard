@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<h1>Account</h1>
+
+<ul>
+    <li><a href="{% url 'accounts:password' %}">Password</a></li>
+</ul>
+
+{% if logline_list %}
+<h2>Loglines</h2>
+<ul>
+    {% for obj in logline_list %}
+    <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No loglines.</p>
+<p><a href="{% url 'loglines:logline_create' %}">Write your first logline</a></p>
+{% endif %}
+
+{% endblock %}

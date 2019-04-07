@@ -1,4 +1,5 @@
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.shortcuts import redirect
 from django.views.generic import RedirectView, TemplateView
 
 from loglines.models import Logline

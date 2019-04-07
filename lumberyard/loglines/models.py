@@ -17,7 +17,7 @@ class Logline(models.Model):
         ordering = ['-created']
 
     def __str__(self):
-        return self.body
+        return self.title
 
     def get_absolute_url(self):
         return reverse('loglines:logline_detail', args=[str(self.id)])

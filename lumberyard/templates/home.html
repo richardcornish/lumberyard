@@ -7,7 +7,10 @@
 
 <p><strong>{{ request.site.name }}</strong> is where you write loglines with instant feedback.</p>
 
+<p><a href="{% url 'loglines:logline_create' %}">Write your first logline</a></p>
+
 {% if logline_list %}
+<p>Some loglines:</p>
 <ul>
     {% for l in logline_list %}
     <li><a href="{{ l.get_absolute_url }}">{{ l.title }}</a></li>

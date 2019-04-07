@@ -35,8 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'accounts',
-    'loglines',
     'debug_toolbar',
+    'loglines',
+    'profiles',
     'reversion',
 ]
 
@@ -142,9 +143,19 @@ AUTH_USER_MODEL = 'accounts.User'
 
 LOGIN_URL = reverse_lazy('accounts:login')
 
-LOGIN_REDIRECT_URL = reverse_lazy('accounts:dashboard')
+LOGIN_REDIRECT_URL = reverse_lazy('accounts:account')
 
 LOGOUT_REDIRECT_URL = reverse_lazy('accounts:login')
+
+
+# E-mail
+# https://docs.djangoproject.com/en/2.2/topics/email/
+
+EMAIL_SUBJECT_PREFIX = ''
+
+DEFAULT_FROM_EMAIL = 'rich@richardcornish.com'
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 
 # Heroku

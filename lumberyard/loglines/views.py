@@ -1,5 +1,6 @@
 from django.db.models import F
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
 
@@ -23,18 +24,20 @@ class LoglineDetailView(DetailView):
         return context
 
 
-class LoglineCreateView(LoginRequiredMixin, RevisionMixin, CreateView):
+class LoglineCreateView(LoginRequiredMixin, RevisionMixin, SuccessMessageMixin, CreateView):
     model = Logline
     fields = ['title', 'body']
+    success_message = 'Logline created successfully.'
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
 
-class LoglineUpdateView(LoginRequiredMixin, RevisionMixin, UpdateView):
+class LoglineUpdateView(LoginRequiredMixin, RevisionMixin, SuccessMessageMixin, UpdateView):
     model = Logline
     fields = ['title', 'body']
+    success_message = 'Logline updated successfully.'
 
 
 class VersionDetailView(DetailView):
@@ -44,9 +47,10 @@ class VersionDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         previous_version = self.get_previous_or_next('date_created', is_next=False)
         next_version = self.get_previous_or_next('date_created', is_next=True)
-        context['previous_version'] = previous_version
-        context['next_version'] = next_version
-        context['diff'] = self.get_diff(previous_version, self.get_object())
+        context['index'] = previous_version.count() + 1
+        context['previous_version'] = previous_version.first()
+        context['next_version'] = next_version.first()
+        context['diff'] = self.get_diff(previous_version.first(), self.get_object())
         return context
 
     def get_previous_or_next(self, field, is_next=False):
@@ -56,7 +60,7 @@ class VersionDetailView(DetailView):
         kwargs = {'%s__%s' % (field, lookuptype): getattr(self.get_object().revision, field)}
         logline = Logline.objects.get(id=self.kwargs['logline_pk'])
         qs = Version._default_manager.annotate(**annotate).filter(**kwargs).order_by('%s%s' % (order_by, field)).get_for_object(logline)
-        return qs.first()
+        return qs
 
     def get_diff(self, obj1, obj2):
         if obj1 is not None:

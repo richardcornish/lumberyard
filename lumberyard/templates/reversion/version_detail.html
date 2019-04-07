@@ -7,14 +7,14 @@
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
     <li class="breadcrumb-item"><a href="{% url 'loglines:logline_list' %}">Loglines</a></li>
     <li class="breadcrumb-item"><a href="{{ object.object.get_absolute_url }}">{{ object.field_dict.title }}</a></li>
-    <li class="breadcrumb-item active">Version {{ object.revision.id }}</li>
+    <li class="breadcrumb-item active">Version {{ index }}</li>
 </ol>
 
 <h1>{{ object.field_dict.title }}</h1>
 
-<p>{{ object.revision.user.username }}</p>
+<p><a href="{{ object.revision.user.get_absolute_url }}">{{ object.revision.user.username }}</a></p>
 
-<p>{{ object.revision.date_created }}</p>
+<p><a href="{% url 'loglines:version_detail' object.object.id object.id %}">{{ object.revision.date_created }}</a></p>
 
 <p>{{ object.field_dict.body }}</p>
 

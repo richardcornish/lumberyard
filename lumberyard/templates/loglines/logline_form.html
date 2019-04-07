@@ -14,6 +14,14 @@
 
 <h1>{% if object %}{{ object.title }}{% else %}New logline{% endif %}</h1>
 
+{% if form.non_field_errors %}
+<ul>
+    {% for error in form.non_field_errors %}
+    <li>{{ error|safe }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
 <form method="post" action="{% if object %}{% url 'loglines:logline_update' object.pk %}{% else %}{% url 'loglines:logline_create' %}{% endif %}">
     {% csrf_token %}
     {{ form.as_p }}

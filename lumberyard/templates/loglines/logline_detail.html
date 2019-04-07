@@ -17,7 +17,9 @@
 
 <p>{{ object.body }}</p>
 
+{% if user.is_authenticated and user == object.user %}
 <p><a href="{% url 'loglines:logline_update' object.id %}">Update</a></p>
+{% endif %}
 
 {% if versions %}
 <h2>Versions</h2>

@@ -3,6 +3,12 @@
 
 {% block content %}
 
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'accounts:profile_list' %}">Writers</a></li>
+    <li class="breadcrumb-item active">{{ object.user.username }}</li>
+</ol>
+
 <h1>{{ object.user.username }}</h1>
 
 {% if object.user.logline_set.all %}

@@ -7,7 +7,7 @@
 
 {% if object.user.logline_set.all %}
 <ul>
-    {% for obj in object.logline_set.all %}
+    {% for obj in object.user.logline_set.all %}
     <li><a href="{{ obj.get_absolute_url }}">{{ obj.title }}</a></li>
     {% endfor %}
 </ul>

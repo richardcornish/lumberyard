@@ -3,6 +3,7 @@ from django.contrib.auth.forms import SetPasswordForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordResetConfirmView, PasswordResetView, PasswordResetDoneView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView
 from django.views.generic.edit import FormView
@@ -32,6 +33,11 @@ class PasswordView(LoginRequiredMixin, SuccessMessageMixin, PasswordChangeView):
 class LoginView(SuccessMessageMixin, LoginView):
     success_message = 'Logged in successfully.'
     template_name = 'accounts/login.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('accounts:account')
+        return super().dispatch(request, *args, **kwargs)
 
 
 class LogoutView(LoginRequiredMixin, SuccessMessageMixin, LogoutView):

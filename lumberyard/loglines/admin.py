@@ -1,10 +1,7 @@
 from django.contrib import admin
-
-from reversion.admin import VersionAdmin
+from simple_history.admin import SimpleHistoryAdmin
 
 from .models import Logline
 
 
-@admin.register(Logline)
-class LoglineAdmin(VersionAdmin):
-    pass
+admin.site.register(Logline, SimpleHistoryAdmin)

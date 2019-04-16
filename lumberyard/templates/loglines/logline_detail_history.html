@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+
+{% block title %}Version {{ index }} &#183; {{ object.title }} &#183; {{ block.super }}{% endblock %}
+
+
+{% block content %}
+
+<ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'loglines:logline_list' %}">Loglines</a></li>
+    <li class="breadcrumb-item"><a href="{{ object.instance.get_absolute_url }}">{{ object.title }}</a></li>
+    <li class="breadcrumb-item active">Version {{ index }}</li>
+</ol>
+
+<h1>{{ object.title }}</h1>
+
+<p><a href="{{ object.user.profile.get_absolute_url }}">{{ object.user.username }}</a></p>
+
+<p><a href="{% url 'loglines:logline_detail_history' object.id object.history_id %}">{{ object.created }}</a></p>
+
+<p>{{ object.body }}</p>
+
+{% if diff %}
+<p>{{ diff|safe }}</p>
+{% endif %}
+
+{% if object.prev_record or object.next_record %}
+<ul>
+    {% if object.prev_record %}
+    <li><a href="{% url 'loglines:logline_detail_history' object.id object.prev_record.history_id %}">&larr; {{ object.prev_record.created }}</a></li>
+    {% endif %}
+    {% if object.next_record %}
+    <li><a href="{% url 'loglines:logline_detail_history' object.id object.next_record.history_id %}">{{ object.next_record.created }} &rarr;</a></li>
+    {% endif %}
+</ul>
+{% endif %}
+
+{% endblock %}

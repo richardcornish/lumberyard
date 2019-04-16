@@ -1,11 +1,7 @@
-from django.db.models import F
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import DetailView, ListView
 from django.views.generic.edit import CreateView, UpdateView
-
-from reversion.models import Version
-from reversion.views import RevisionMixin
 
 from .models import Logline
 from .utilities import PrettyDiffMatchPatch
@@ -18,13 +14,8 @@ class LoglineListView(ListView):
 class LoglineDetailView(DetailView):
     model = Logline
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['versions'] = Version.objects.get_for_object(self.get_object())
-        return context
 
-
-class LoglineCreateView(LoginRequiredMixin, RevisionMixin, SuccessMessageMixin, CreateView):
+class LoglineCreateView(LoginRequiredMixin, SuccessMessageMixin, CreateView):
     model = Logline
     fields = ['title', 'body']
     success_message = 'Logline created successfully.'
@@ -34,38 +25,30 @@ class LoglineCreateView(LoginRequiredMixin, RevisionMixin, SuccessMessageMixin, 
         return super().form_valid(form)
 
 
-class LoglineUpdateView(LoginRequiredMixin, RevisionMixin, SuccessMessageMixin, UpdateView):
+class LoglineUpdateView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = Logline
     fields = ['title', 'body']
     success_message = 'Logline updated successfully.'
 
 
-class VersionDetailView(DetailView):
-    model = Version
+class LoglineHistoryDetailView(DetailView):
+    template_name = 'loglines/logline_detail_history.html'
+
+    def get_object(self, queryset=None):
+        return Logline.history.get(id=self.kwargs['pk'], history_id=self.kwargs['history_pk'])
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        previous_version = self.get_previous_or_next('date_created', is_next=False)
-        next_version = self.get_previous_or_next('date_created', is_next=True)
-        context['index'] = previous_version.count() + 1
-        context['previous_version'] = previous_version.first()
-        context['next_version'] = next_version.first()
-        context['diff'] = self.get_diff(previous_version.first(), self.get_object())
+        context['index'] = Logline.history.filter(history_date__lt=self.object.history_date).count() + 1
+        context['diff'] = self.get_diff()
         return context
 
-    def get_previous_or_next(self, field, is_next=False):
-        lookuptype = 'gt' if is_next else 'lt'
-        order_by = '' if is_next else '-'
-        annotate = {'%s' % field: F('revision__%s' % field)}
-        kwargs = {'%s__%s' % (field, lookuptype): getattr(self.get_object().revision, field)}
-        logline = Logline.objects.get(id=self.kwargs['logline_pk'])
-        qs = Version._default_manager.annotate(**annotate).filter(**kwargs).order_by('%s%s' % (order_by, field)).get_for_object(logline)
-        return qs
-
-    def get_diff(self, obj1, obj2):
-        if obj1 is not None:
+    def get_diff(self):
+        obj = self.get_object()
+        if obj.prev_record is not None:
             dmp = PrettyDiffMatchPatch()
-            diff = dmp.diff_main(obj1.field_dict['body'], obj2.object.body)
+            diff = dmp.diff_main(obj.body, obj.prev_record.body)
             dmp.diff_cleanupSemantic(diff)
             return dmp.diff_prettyHtml(diff)
-        return ''
+        else:
+            return ''

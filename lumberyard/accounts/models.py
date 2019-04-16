@@ -1,8 +1,7 @@
 from django.contrib.auth.models import AbstractUser
-from django.urls import reverse
 
-from .validators import ASCIIUsernameValidator
+from .validators import SlugASCIIUsernameValidator
 
 
 class User(AbstractUser):
-    username_validator = ASCIIUsernameValidator()
+    username_validator = SlugASCIIUsernameValidator()

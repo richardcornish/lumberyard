@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
 
+{% block title %}Login &#183; {{ block.super }}{% endblock %}
+
+
 {% block content %}
 
-<h1>Log in</h1>
+<h1>Login</h1>
 
 {% if form.non_field_errors %}
 <ul>
@@ -17,7 +20,7 @@
     {% if user.is_authenticated %}
     <p>Your account doesn't have access to this page. To proceed, please login with an account that has access.</p>
     {% else %}
-    <p>Please login to see this page.</p>
+    <p>Please log in to see this page.</p>
     {% endif %}
 {% endif %}
 

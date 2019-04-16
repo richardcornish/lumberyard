@@ -1,6 +1,6 @@
 from django.contrib.auth.validators import ASCIIUsernameValidator
 
 
-class ASCIIUsernameValidator(ASCIIUsernameValidator):
+class SlugASCIIUsernameValidator(ASCIIUsernameValidator):
     regex = r'^[\w-]+\Z'
-    message = 'Enter a valid username of letters, numbers, <code>-</code>, or <code>_</code>.'
+    message = 'Enter a valid username of letters, numbers, hyphens, or underscores.'

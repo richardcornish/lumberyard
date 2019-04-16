@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'loglines',
     'profiles',
-    'reversion',
+    'simple_history',
 ]
 
 MIDDLEWARE = [
@@ -51,6 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'simple_history.middleware.HistoryRequestMiddleware',
 ]
 
 ROOT_URLCONF = 'lumberyard.urls'

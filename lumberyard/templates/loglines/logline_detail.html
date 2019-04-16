@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 
 
+{% block title %}{{ object.title }} &#183; {{ block.super }}{% endblock %}
+
+
 {% block content %}
 
 <ol class="breadcrumb">
@@ -21,14 +24,12 @@
 <p><a href="{% url 'loglines:logline_update' object.id %}">Update</a></p>
 {% endif %}
 
-<p><a href="{% url 'loglines:logline_create' %}">New logline</a></p>
-
-{% if versions %}
+{% if logline.history.all %}
 <h2>Versions</h2>
 
 <ol reversed>
-    {% for v in versions %}
-    <li><a href="{% url 'loglines:version_detail' object.id v.id %}">{{ v.field_dict.body }}</a></li>
+    {% for obj in logline.history.all %}
+    <li><a href="{% url 'loglines:logline_detail_history' obj.id obj.history_id %}">{{ obj.body }}</a></li>
     {% endfor %}
 </ol>
 {% endif %}

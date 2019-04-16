@@ -6,11 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django-heroku = "*"
-gunicorn = "*"
-django-reversion = "*"
 django-debug-toolbar = "*"
+django-heroku = "*"
+django-simple-history = "*"
 diff-match-patch = "*"
+gunicorn = "*"
 pywatchman = "*"
 
 [requires]
